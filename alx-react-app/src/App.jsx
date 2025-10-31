@@ -13,7 +13,6 @@ function App() {
   return (
     <>
       <div>
-        <WelcomeMessage />
         <Header/>
         <MainContent/>
         <Footer/>

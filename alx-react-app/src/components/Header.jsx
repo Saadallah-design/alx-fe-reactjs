@@ -1,7 +1,7 @@
 
 function Header() {
     return (
-        <h1>My Favorite Cities</h1>
+        <header>My Favorite Cities</header>
     );
 }
 export default Header;
