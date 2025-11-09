@@ -1,11 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 const Navbar = () => {
   return (
-    <div>
-      <ul>
-        <li>
+    <div style={{ padding: '10px', backgroundColor: '#f0f0f0',  maxWidth: '100vw' }}> 
+      <ul style={{ listStyleType: 'none', display: 'flex', gap: '15px',display:'flex',justifyContent:'space-around', textAlign: 'center'}}>
+        <li style={{color: 'blue', fontWeight: 'bold'}}> 
             <Link to='/'>Home</Link>
         </li>
         <li> 

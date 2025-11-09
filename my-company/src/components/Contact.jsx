@@ -14,12 +14,13 @@ import { useState } from 'react';
      const handleSubmit = (e) => {
        e.preventDefault();
        alert('Form submitted!');
+      setFormData({ name: '', email: '', message: '' });
      };
 
      return (
-       <div style={{ padding: '20px' }}>
+       <div style={{ padding: '20px', textAlign: 'center'}}>
          <h1>Contact Us</h1>
-         <form onSubmit={handleSubmit}>
+         <form onSubmit={handleSubmit} style={{ display: 'inline-block', textAlign: 'left' }}>
            <input
              type="text"
              name="name"
