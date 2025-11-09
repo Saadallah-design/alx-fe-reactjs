@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {UserContext} from '../contexts/UserContext';
+import {UserContext} from './UserContext';
 import { useContext } from 'react';
 
 

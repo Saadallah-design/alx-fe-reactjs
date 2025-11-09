@@ -6,7 +6,7 @@ import MainContent from './components/MainContent'
 import Footer from './components/Footer'
 import UserProfile from './components/UserProfile'
 import User1 from './components/pages/User1'
-import { UserContext } from './contexts/UserContext';
+import { UserContext } from './components/UserContext';
 import { useState } from 'react';
 import ProfilePage from './components/ProfilePage'
 import UserDetails from './components/UserDetails'
