@@ -2,7 +2,9 @@
 import React, { createContext, useState } from 'react';
 
 // 1. Create and Export the Context Object
-export const UserContext = createContext();
+const UserContext = createContext();
+
+export default UserContext;
 
 // 2. Create the Provider Component
 // export function UserProvider({children}) {
