@@ -1,7 +1,8 @@
 // src/components/ProfilePage.jsx
 import React, {useContext} from 'react';
 
-import {UserContext} from './UserContext';
+import UserContext from './UserContext';
+
 
 function ProfilePage() {
     const {userData} = useContext(UserContext);

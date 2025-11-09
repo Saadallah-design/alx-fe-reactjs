@@ -4,17 +4,17 @@ import WelcomeMessage from './components/WelcomeMessage'
 import Header from './components/Header'
 import MainContent from './components/MainContent'
 import Footer from './components/Footer'
-import UserProfile from './components/UserProfile'
 import User1 from './components/pages/User1'
-import { UserContext } from './components/UserContext';
+import UserContext from './components/UserContext'
 import { useState } from 'react';
 import ProfilePage from './components/ProfilePage'
 import UserDetails from './components/UserDetails'
+import UserProfile from './components/UserProfile'
 
 
 function App() {
 
-  const [userData, setUserData] = useState({ name: "Jane Doe", email: "jane.doe@example.com" });
+  const [userData, setUserData] = useState({ name: "Jane Doe", email: "jane.doe@example.com", age: 28, bio: "Avid reader and traveler" });
     
   const value = { userData: userData, setUserData: setUserData }; // The value to be passed to consuming components
 
@@ -31,6 +31,7 @@ function App() {
         
         <ProfilePage />
         <UserDetails />
+        <UserProfile />
         </UserContext.Provider>
     </>
   )

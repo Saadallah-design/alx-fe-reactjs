@@ -1,5 +1,5 @@
 // src/contexts/UserContext.jsx
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
 
 // 1. Create and Export the Context Object
 const UserContext = createContext();
