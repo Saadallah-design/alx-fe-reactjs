@@ -33,8 +33,8 @@ const EditRecipeForm = ({ recipeId, onSave, onCancel }) => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     if (!recipeToEdit) return; // Should not happen if used correctly
 
