@@ -1,13 +1,8 @@
-import React from 'react'
-import RecipeList from './RecipeList'
+import { create } from 'zustand';
 
-const RecipeStore = () => {
-  return (
-    <div>
-        <h1>The current Recipe Store consists of: </h1>
-      <RecipeList />
-    </div>
-  )
-}
 
-export default RecipeStore;
+ export const useRecipeStore = create(set => ({
+  recipes: [],
+  addRecipe: (newRecipe) => set(state => ({ recipes: [...state.recipes, newRecipe] })),
+  setRecipes: (recipes) => set({ recipes })
+}));
