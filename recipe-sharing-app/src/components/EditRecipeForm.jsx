@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useRecipeStore } from '../stores/useRecipeStore';
 
 const EditRecipeForm = ({ recipeId, onSave, onCancel }) => {
+
+    const idToFind = Number(recipeId);
   // 1. Get the update action from the store
   const updateRecipe = useRecipeStore((state) => state.updateRecipe);
 
   // 2. Get the specific recipe data
   const recipeToEdit = useRecipeStore((state) => 
-    state.recipes.find(recipe => recipe.id === recipeId)
+    state.recipes.find(recipe => recipe.id === idToFind)
   );
   
   // State to hold the form data (initialized from the store data)
   const [formData, setFormData] = useState({ 
     name: '', 
-    ingredients: '', 
+    description: '', 
   });
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const EditRecipeForm = ({ recipeId, onSave, onCancel }) => {
       setFormData({
         name: recipeToEdit.name,
         // Assuming ingredients is an array; join it into a comma-separated string for the input field
-        ingredients: recipeToEdit.ingredients.join(', '), 
+        description: recipeToEdit.description || '', 
       });
     }
   }, [recipeToEdit]);
@@ -42,11 +44,11 @@ const EditRecipeForm = ({ recipeId, onSave, onCancel }) => {
       ...recipeToEdit, // Keep the original ID
       name: formData.name,
       // Convert the comma-separated string back into an array
-      ingredients: formData.ingredients.split(',').map(s => s.trim()).filter(s => s.length > 0), 
+      description: formData.description, 
     };
 
     // 4. Update the store with the new data
-    updateRecipe(recipeId, updatedRecipe);
+    updateRecipe(recipeToEdit.id, updatedRecipe);
 
     // Call the callback to close the form or show a success message
     if (onSave) {
@@ -73,11 +75,11 @@ const EditRecipeForm = ({ recipeId, onSave, onCancel }) => {
         />
       </div>
       <div>
-        <label htmlFor="ingredients">Ingredients (comma separated):</label>
+        <label htmlFor="description">Description:</label>
         <textarea
-          id="ingredients"
-          name="ingredients"
-          value={formData.ingredients}
+          id="description"
+          name="description"
+          value={formData.description}
           onChange={handleChange}
           required
         />

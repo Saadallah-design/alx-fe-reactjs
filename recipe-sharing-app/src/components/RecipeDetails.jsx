@@ -58,11 +58,10 @@ const RecipeDetails = () => {
           </div>
           
           <h3>Ingredients:</h3>
-          <ul style={{ listStyleType: 'disc', paddingLeft: '20px' }}>
-            {recipe.ingredients.map((ing, index) => (
-              <li key={index}>{ing}</li>
-            ))}
-          </ul>
+          <p style={{ whiteSpace: 'pre-wrap' }}>
+            {/* The optional chaining (?.) is a safe way to access the description */}
+            {recipe.description || 'No description provided.'}
+          </p>
         </>
       )}
       

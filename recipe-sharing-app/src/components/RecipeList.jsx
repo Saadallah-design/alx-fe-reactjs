@@ -16,8 +16,14 @@ import DeleteRecipeButton from './DeleteRecipeButton';
             <h3>{recipe.name}</h3>
           </Link>         
           <p>{recipe.description}</p>          
+
+          <div style={{ display: 'flex', gap: '10px' }}>
+          <Link to={`/recipes/${recipe.id}`} style={{ textDecoration: 'none' }}>
+                <button style={{ padding: '5px 10px', cursor: 'pointer' }}>Edit</button>
+            </Link>
           <DeleteRecipeButton recipeId={recipe.id}/>
           {/* <EditRecipeForm recipeId={recipe.id}/> */}
+          </div>
         </div>
       ))}
     </div>
