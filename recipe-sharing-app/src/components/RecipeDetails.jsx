@@ -4,7 +4,10 @@ import { useRecipeStore } from '../stores/useRecipeStore';
 import EditRecipeForm from './EditRecipeForm'; 
 import DeleteRecipeButton from './DeleteRecipeButton';
 
+
+
 const RecipeDetails = () => {
+    //setting recipe.id
   const { recipeId } = useParams();
   const idToFind = Number(recipeId); // Convert string URL param to a number
   
