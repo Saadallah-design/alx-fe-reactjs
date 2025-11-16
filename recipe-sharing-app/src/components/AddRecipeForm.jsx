@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { create } from 'zustand';
 import { useRecipeStore } from '../stores/useRecipeStore';
+
 const AddRecipeForm = () => {
   const addRecipe = useRecipeStore(state => state.addRecipe);
   const [title, setTitle] = useState('');
