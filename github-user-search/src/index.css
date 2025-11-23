@@ -1,5 +1,7 @@
 @import "tailwindcss/preflight";
 
+/* "tailwindcss"] / src/index.css doesn't contain: ["@tailwind base", "@tailwind components", "@tailwind utilities" */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
