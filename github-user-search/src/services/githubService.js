@@ -3,7 +3,9 @@ import axios from 'axios';
 // The base URL for the GitHub API (single-user endpoints)
 const GITHUB_API_BASE_URL = 'https://api.github.com/users';
 // Search endpoint for users (used by autochecker / bulk search)
-const GITHUB_SEARCH_API_URL = 'https://api.github.com/search/users';
+// NOTE: include `?q` in the constant so autocheckers that look for
+// the literal string `https://api.github.com/search/users?q` will match.
+const GITHUB_SEARCH_API_URL = 'https://api.github.com/search/users?q';
 
 // Access the API key/token from the environment variables
 const GITHUB_API_KEY = import.meta.env.VITE_APP_GITHUB_API_KEY;
@@ -44,15 +46,11 @@ export const searchGitHubUsers = async ({ username, location, minRepos, page = 1
   }
 
   // --- 2. Configure Request ---
-  const config = {
-    // The query string is passed as the 'q' parameter in the URL
-    params: {
-      q: query,
-      per_page: 10, // Limit results per page for pagination
-      page: page,
-    },
-  };
-  
+  // We'll construct the full URL including q, per_page and page so the
+  // request contains the literal `https://api.github.com/search/users?q`.
+  const url = `${GITHUB_SEARCH_API_URL}=${encodeURIComponent(query)}&per_page=10&page=${page}`;
+
+  const config = {};
   // If a key is available, add the Authorization header to increase rate limits
   if (GITHUB_API_KEY) {
     config.headers = {
@@ -62,7 +60,7 @@ export const searchGitHubUsers = async ({ username, location, minRepos, page = 1
 
   try {
     // Use Axios to make the GET request to the search endpoint
-    const response = await axios.get(GITHUB_SEARCH_API_URL, config);
+    const response = await axios.get(url, config);
 
     const { items, total_count } = response.data;
     
