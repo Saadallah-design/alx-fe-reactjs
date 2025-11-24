@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# 💻 Environment and Configuration
+# ---------------------------------
+# Environment variables file(s)
+.env
+.env.*
+
