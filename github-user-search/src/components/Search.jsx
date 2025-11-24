@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { searchGitHubUsers } from '../services/githubService';
 
+// fetchUserData
 const Search = ({ onSearch, isLoading = false }) => {
   const [username, setUsername] = useState('');
   const [results, setResults] = useState([]);
