@@ -10,7 +10,7 @@ const GITHUB_SEARCH_API_URL = 'https://api.github.com/search/users?q';
 // Access the API key/token from the environment variables
 const GITHUB_API_KEY = import.meta.env.VITE_APP_GITHUB_API_KEY;
 
-
+// "location", "html_url"
 /**
  * Performs an advanced search for GitHub users based on specific criteria.
  * This function handles constructing the complex 'q' search query and pagination.
@@ -25,7 +25,7 @@ const GITHUB_API_KEY = import.meta.env.VITE_APP_GITHUB_API_KEY;
  */
 
 
-export const searchGitHubUsers = async ({ username, location, minRepos, page = 1 }) => {
+export const searchGitHubUsers = async ({ username, location, minRepos, page = 1, includeDetails = false }) => {
   if (!username) {
     // Throw error or return early if the main search term is missing
     throw new Error("A primary search term (username/keyword) is required.");
@@ -68,9 +68,26 @@ export const searchGitHubUsers = async ({ username, location, minRepos, page = 1
     const linkHeader = response.headers['link'];
     const hasMore = linkHeader ? linkHeader.includes('rel="next"') : (page * config.params.per_page < total_count);
 
+    // Optionally fetch full profile details (to include fields like `location`)
+    let finalItems = items;
+    if (includeDetails && Array.isArray(items) && items.length > 0) {
+      try {
+        // Fetch full profiles for each matched login in parallel
+        const detailed = await Promise.all(
+          items.map((it) => fetchUserData(it.login))
+        );
+
+        // Merge search item (contains html_url, avatar, score) with full profile
+        finalItems = items.map((it, idx) => ({ ...it, ...(detailed[idx] || {}) }));
+      } catch (err) {
+        // If fetching details fails, fall back to original items but log
+        console.warn('Failed to fetch full profiles for search results:', err);
+      }
+    }
+
     // Return the structured search data
     return {
-      items: items, // The list of user profiles matching the search
+      items: finalItems, // The list of user profiles matching the search
       totalCount: total_count,
       currentPage: page,
       hasMore: hasMore, // Flag used to display the "Load More" button
