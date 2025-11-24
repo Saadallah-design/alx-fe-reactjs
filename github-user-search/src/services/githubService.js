@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// The base URL for the GitHub API (Missing in your provided code)
+// The base URL for the GitHub API (single-user endpoints)
 const GITHUB_API_BASE_URL = 'https://api.github.com/users';
+// Search endpoint for users (used by autochecker / bulk search)
+const GITHUB_SEARCH_API_URL = 'https://api.github.com/search/users';
 
 // Access the API key/token from the environment variables
 const GITHUB_API_KEY = import.meta.env.VITE_APP_GITHUB_API_KEY;
@@ -89,19 +91,11 @@ export const searchGitHubUsers = async ({ username, location, minRepos, page = 1
 };
 
 
-// Previous code
+// Minimal helper to fetch a single user's full profile
+export const fetchUserData = async (username) => {
+  if (!username) return null;
 
-// export const fetchUserData = async (username) => {
-//   if (!username) {
-//     return null; // Return early if no username is provided
-//   }
-
-
-/** 
-  // Configuration object for Axios request
   const config = {};
-  
-  // If a key is available, add the Authorization header to increase rate limits
   if (GITHUB_API_KEY) {
     config.headers = {
       Authorization: `token ${GITHUB_API_KEY}`,
@@ -109,24 +103,15 @@ export const searchGitHubUsers = async ({ username, location, minRepos, page = 1
   }
 
   try {
-    // Construct the full API endpoint URL
     const url = `${GITHUB_API_BASE_URL}/${username}`;
-
-    // Use Axios to make the GET request
     const response = await axios.get(url, config);
-
-    // If the request is successful (status code 200), return the data
     return response.data;
   } catch (error) {
-    // Handle specific error codes, like 404 (Not Found)
     if (error.response && error.response.status === 404) {
       console.warn(`GitHub user "${username}" not found (404).`);
     } else {
-      // Log any other errors (network issues, API errors, rate limiting)
       console.error('Error fetching GitHub user data:', error);
     }
-    // Return null to indicate that the fetch failed or the user was not found
     return null;
   }
 };
- */

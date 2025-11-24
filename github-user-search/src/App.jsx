@@ -1,7 +1,7 @@
 import Search from './components/Search';
 import './App.css';
 import UserProfile from './components/UserProfile';
-import { fetchUserData } from './services/githubService';
+import { fetchUserData, searchGitHubUsers } from './services/githubService';
 import { useState } from 'react';
 
 
@@ -15,31 +15,36 @@ function App() {
   const [error, setError] = useState(null);
 
 const handleSearch = async (searchTerm) => {
-  // 1. Reset states and set loading
-    setUserData(null);
-    setError(null);
-    setIsLoading(true);
+  // Reset states and set loading
+  setUserData(null);
+  setError(null);
+  setIsLoading(true);
 
-try {
-      // 2. Call the API function
-      const data = await fetchUserData(searchTerm);
-      
-      // 3. Update state based on API response
-      if (data) {
-        // Success: User found
-        setUserData(data);
-      } else {
-        // Failure: User not found (fetchUserData returns null on 404 or error)
-        setError("Looks like we can't find the user.");
+  try {
+    // Use the search endpoint to find matching users
+    const result = await searchGitHubUsers({ username: searchTerm });
+
+    // If the search returned items, fetch the full profile for the first match
+    if (result && Array.isArray(result.items) && result.items.length > 0) {
+      const first = result.items[0];
+      // fetch full profile so UserProfile has the expected fields
+      const full = await fetchUserData(first.login);
+      if (full) {
+        setUserData(full);
+        return full; // return data so Search can await and update recent list
       }
-    } catch (e) {
-      // Catch any unexpected errors during the process
-      setError('An unexpected error occurred. Please try again.');
-    } finally {
-      // 4. Always turn off loading regardless of success or failure
-      setIsLoading(false);
     }
-  };
+
+    // No matches found
+    setError("Looks like we can't find the user.");
+    return null;
+  } catch (e) {
+    setError(e.message || 'An unexpected error occurred. Please try again.');
+    return null;
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // --- Conditional Rendering Logic ---
   let content;
@@ -59,7 +64,7 @@ try {
     <>
       <h1>Hello to this project</h1>
       <h2>Github User Search</h2>
-      <Search onSearch={handleSearch}/>
+      <Search onSearch={handleSearch} isLoading={isLoading} />
 
       <main className="search-results">
         {/* User profile details and results will go here */}
